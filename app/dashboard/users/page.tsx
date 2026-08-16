@@ -6,6 +6,7 @@ import StatusBadge from '@/components/shared/StatusBadge';
 import Avatar from '@/components/shared/Avatar';
 import Modal from '@/components/shared/Modal';
 import Drawer from '@/components/shared/Drawer';
+import Reveal from '@/components/shared/Reveal';
 import DataTable, { type ColumnDef } from '@/components/shared/DataTable';
 import { useUsers } from '@/hooks/useUsers';
 import { useUserDetails } from '@/hooks/useUser';
@@ -92,7 +93,8 @@ export default function UsersPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4">
+      <Reveal>
+        <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative w-full sm:max-w-xs">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-textSecondary" />
@@ -129,7 +131,8 @@ export default function UsersPage() {
             </button>
           ))}
         </div>
-      </div>
+        </div>
+      </Reveal>
 
       <DataTable
         data={paged}

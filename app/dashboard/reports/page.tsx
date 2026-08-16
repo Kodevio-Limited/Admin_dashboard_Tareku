@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
 import { TrendingUp, FileText, Percent, Target } from 'lucide-react';
 import Card from '@/components/shared/Card';
+import Reveal from '@/components/shared/Reveal';
 import { BarChart, DonutChart } from '@/components/shared/Charts';
 
 const reportCards = [
@@ -28,28 +28,9 @@ const repaymentStatusData = [
 ];
 
 export default function ReportsPage() {
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
-
   return (
-    <div className="flex flex-1 flex-col gap-6">
-      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-border bg-surface p-4">
-        <p className="text-sm font-medium text-navy">Date Range</p>
-        <input
-          type="date"
-          value={fromDate}
-          onChange={(e) => setFromDate(e.target.value)}
-          className="h-10 rounded-lg border border-border bg-surface px-3 text-sm text-navy outline-none focus:border-accent"
-        />
-        <span className="text-xs text-textSecondary">to</span>
-        <input
-          type="date"
-          value={toDate}
-          onChange={(e) => setToDate(e.target.value)}
-          className="h-10 rounded-lg border border-border bg-surface px-3 text-sm text-navy outline-none focus:border-accent"
-        />
-      </div>
-
+    <div className="flex flex-1 flex-col">
+      <Reveal>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {reportCards.map((card) => (
           <Card key={card.label} className="flex flex-col">
@@ -72,25 +53,28 @@ export default function ReportsPage() {
           </Card>
         ))}
       </div>
+      </Reveal>
 
-      <div className="grid flex-1 grid-cols-1 gap-6 lg:grid-cols-2">
-        <Card
-          title="Transfer Volume"
-          subtitle="Money sent over the selected period"
-          className="flex flex-col"
-          bodyClassName="flex flex-1 items-center"
-        >
-          <BarChart data={volumeData} fill />
-        </Card>
-        <Card
-          title="Repayment Status"
-          subtitle="Distribution of repayment outcomes"
-          className="flex flex-col"
-          bodyClassName="flex flex-1 items-center justify-center"
-        >
-          <DonutChart segments={repaymentStatusData} />
-        </Card>
-      </div>
+      <Reveal className="flex flex-1 flex-col">
+        <div className="grid flex-1 gap-6 pt-6 lg:grid-cols-2">
+          <Card
+            title="Transfer Volume"
+            subtitle="Money sent over the selected period"
+            className="flex flex-col"
+            bodyClassName="flex flex-1 items-center p-8"
+          >
+            <BarChart data={volumeData} fill />
+          </Card>
+          <Card
+            title="Repayment Status"
+            subtitle="Distribution of repayment outcomes"
+            className="flex flex-col"
+            bodyClassName="flex flex-1 items-center justify-center p-8"
+          >
+            <DonutChart segments={repaymentStatusData} />
+          </Card>
+        </div>
+      </Reveal>
     </div>
   );
 }

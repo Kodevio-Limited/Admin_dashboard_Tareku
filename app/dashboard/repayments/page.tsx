@@ -4,6 +4,7 @@ import { Wallet, CalendarClock, CheckCircle2, AlertTriangle } from 'lucide-react
 import Card from '@/components/shared/Card';
 import StatusBadge from '@/components/shared/StatusBadge';
 import Drawer from '@/components/shared/Drawer';
+import Reveal from '@/components/shared/Reveal';
 import DataTable, { type ColumnDef } from '@/components/shared/DataTable';
 import { useRepayments } from '@/hooks/useRepayments';
 import type { Repayment, RepaymentStatus } from '@/types/repayment';
@@ -78,7 +79,8 @@ export default function RepaymentsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <Reveal>
+      <div className="grid grid-cols-1 gap-4 pb-2 sm:grid-cols-2 xl:grid-cols-4">
         {summaryCards.map((card) => (
           <Card key={card.label}>
             <div className="flex items-start justify-between">
@@ -96,7 +98,7 @@ export default function RepaymentsPage() {
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="my-6 flex flex-wrap gap-3">
         {(['all', 'upcoming', 'completed', 'overdue', 'failed'] as Filter[]).map((f) => (
           <button
             key={f}
@@ -114,6 +116,7 @@ export default function RepaymentsPage() {
           </button>
         ))}
       </div>
+      </Reveal>
 
       <DataTable
         data={paged}

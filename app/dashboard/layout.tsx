@@ -13,7 +13,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex min-h-screen flex-col lg:ml-[255px]">
         <Header pathname={pathname} onMenuToggle={() => setSidebarOpen(true)} />
-        <main className="flex flex-1 flex-col p-4 sm:p-8">{children}</main>
+        <main className="flex min-h-[calc(100dvh-75px)] flex-1 flex-col gap-6 p-4 sm:p-8">{children}</main>
       </div>
     </div>
   );

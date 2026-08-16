@@ -6,6 +6,7 @@ import Button from '@/components/shared/Button';
 import StatusBadge from '@/components/shared/StatusBadge';
 import Avatar from '@/components/shared/Avatar';
 import Drawer from '@/components/shared/Drawer';
+import Reveal from '@/components/shared/Reveal';
 import DataTable, { type ColumnDef } from '@/components/shared/DataTable';
 import { useTransactions } from '@/hooks/useTransactions';
 import { useUsers } from '@/hooks/useUsers';
@@ -19,8 +20,6 @@ export default function TransactionsPage() {
   const { data: users } = useUsers();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
   const [selected, setSelected] = useState<Transaction | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -35,12 +34,9 @@ export default function TransactionsPage() {
         t.sender.toLowerCase().includes(search.toLowerCase()) ||
         t.recipient.toLowerCase().includes(search.toLowerCase());
       const matchesStatus = statusFilter === 'all' || t.status === statusFilter;
-      const tDate = new Date(t.date).getTime();
-      const matchesFrom = !fromDate || tDate >= new Date(fromDate).getTime();
-      const matchesTo = !toDate || tDate <= new Date(toDate).getTime();
-      return matchesSearch && matchesStatus && matchesFrom && matchesTo;
+      return matchesSearch && matchesStatus;
     });
-  }, [transactions, search, statusFilter, fromDate, toDate]);
+  }, [transactions, search, statusFilter]);
 
   const pageSize = 10;
   const paged = filtered.slice((page - 1) * pageSize, page * pageSize);
@@ -107,6 +103,7 @@ export default function TransactionsPage() {
 
   return (
     <div className="space-y-6">
+      <Reveal>
       <Card bodyClassName="space-y-4 p-4">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="relative flex-1">
@@ -121,30 +118,9 @@ export default function TransactionsPage() {
               className="h-10 w-full rounded-lg border border-border bg-surface pl-9 pr-3 text-sm text-navy outline-none focus:border-accent"
             />
           </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <input
-              type="date"
-              value={fromDate}
-              onChange={(e) => {
-                setFromDate(e.target.value);
-                setPage(1);
-              }}
-              className="h-10 rounded-lg border border-border bg-surface px-3 text-sm text-navy outline-none focus:border-accent"
-            />
-            <span className="text-xs text-textSecondary">to</span>
-            <input
-              type="date"
-              value={toDate}
-              onChange={(e) => {
-                setToDate(e.target.value);
-                setPage(1);
-              }}
-              className="h-10 rounded-lg border border-border bg-surface px-3 text-sm text-navy outline-none focus:border-accent"
-            />
-          </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-3">
           {(['all', 'completed', 'pending', 'failed'] as StatusFilter[]).map((s) => (
             <button
               key={s}
@@ -163,6 +139,7 @@ export default function TransactionsPage() {
           ))}
         </div>
       </Card>
+      </Reveal>
 
       <DataTable
         data={paged}

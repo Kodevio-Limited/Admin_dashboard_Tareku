@@ -12,6 +12,7 @@ import {
 import Card from '@/components/shared/Card';
 import StatusBadge from '@/components/shared/StatusBadge';
 import Avatar from '@/components/shared/Avatar';
+import Reveal from '@/components/shared/Reveal';
 import { BarChart } from '@/components/shared/Charts';
 import { useTransactions, useTransactionChart } from '@/hooks/useTransactions';
 import { useUsers } from '@/hooks/useUsers';
@@ -61,32 +62,35 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Overview cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {overviewCards.map((card) => (
-          <Card key={card.label}>
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm text-textSecondary">{card.label}</p>
-                <p className="mt-2 text-2xl font-bold text-navy">
-                  {card.value >= 1000 ? formatCurrency(card.value) : card.value.toLocaleString()}
-                </p>
-                <p className="mt-1 flex items-center gap-1 text-xs font-medium text-success">
-                  <TrendingUp className="h-3.5 w-3.5" />
-                  {card.delta}
-                  <span className="font-normal text-textSecondary">vs last month</span>
-                </p>
+      <Reveal>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {overviewCards.map((card) => (
+            <Card key={card.label}>
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm text-textSecondary">{card.label}</p>
+                  <p className="mt-2 text-2xl font-bold text-navy">
+                    {card.value >= 1000 ? formatCurrency(card.value) : card.value.toLocaleString()}
+                  </p>
+                  <p className="mt-1 flex items-center gap-1 text-xs font-medium text-success">
+                    <TrendingUp className="h-3.5 w-3.5" />
+                    {card.delta}
+                    <span className="font-normal text-textSecondary">vs last month</span>
+                  </p>
+                </div>
+                <div className={`rounded-lg p-2.5 ${card.iconBg}`}>
+                  <card.icon className="h-5 w-5" />
+                </div>
               </div>
-              <div className={`rounded-lg p-2.5 ${card.iconBg}`}>
-                <card.icon className="h-5 w-5" />
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
+            </Card>
+          ))}
+        </div>
+      </Reveal>
 
       {/* Transaction activity */}
-      <Card
-        title="Transaction Activity"
+      <Reveal>
+        <Card
+          title="Transaction Activity"
         subtitle="Money sent over the selected period"
         action={
           <div className="flex rounded-lg border border-border p-0.5">
@@ -106,11 +110,13 @@ export default function DashboardPage() {
       >
         <BarChart data={chart.data} />
       </Card>
+      </Reveal>
 
       {/* Recent transactions */}
-      <Card
-        title="Recent Transactions"
-        bodyClassName="p-0"
+      <Reveal>
+        <Card
+          title="Recent Transactions"
+          bodyClassName="p-0"
         action={
           <Link
             href="/dashboard/transactions"
@@ -167,6 +173,7 @@ export default function DashboardPage() {
           </Link>
         </div>
       </Card>
+      </Reveal>
     </div>
   );
 }

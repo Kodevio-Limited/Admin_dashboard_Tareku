@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { X } from 'lucide-react';
+import { LogOut, X } from 'lucide-react';
 import {
   LayoutDashboard,
   Users,
@@ -62,7 +62,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         <nav className="flex-1 space-y-1 px-3 py-4">
           {NAV_ITEMS.map((item) => {
             const Icon = iconMap[item.icon];
-            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const active = pathname === item.href;
             return (
               <Link
                 key={item.href}
@@ -82,8 +82,14 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           })}
         </nav>
 
-        <div className="border-t border-white/10 px-6 py-5">
-          <p className="text-xs text-white/40">Admin Console v1.0</p>
+        <div className="border-t border-white/10 px-3 py-4">
+          <button
+            onClick={onClose}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            <LogOut className="h-5 w-5" />
+            Log out
+          </button>
         </div>
       </aside>
     </>

@@ -12,6 +12,15 @@ const pageTitles: Record<string, string> = {
   '/dashboard/settings': 'Settings',
 };
 
+const pageSubtitles: Record<string, string> = {
+  '/dashboard': 'Overview of your money transfer activity',
+  '/dashboard/users': 'Manage and review registered users',
+  '/dashboard/transactions': 'Review all money transfers',
+  '/dashboard/repayments': 'Manage repayment plans and schedules',
+  '/dashboard/reports': 'Transfer and repayment reporting',
+  '/dashboard/settings': 'Update your profile and security',
+};
+
 export default function Header({
   pathname,
   onMenuToggle,
@@ -21,9 +30,10 @@ export default function Header({
 }) {
   const [profileOpen, setProfileOpen] = useState(false);
   const title = pageTitles[pathname] ?? 'Dashboard';
+  const subtitle = pageSubtitles[pathname];
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b border-border bg-surface/90 px-4 backdrop-blur sm:px-6">
+    <header className="sticky top-0 z-30 flex h-[75px] items-center justify-between gap-4 border-b border-border bg-surface/90 px-4 backdrop-blur sm:px-8">
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuToggle}
@@ -32,7 +42,10 @@ export default function Header({
         >
           <Menu className="h-5 w-5" />
         </button>
-        <h1 className="text-lg font-semibold text-navy">{title}</h1>
+        <div>
+          <h1 className="text-lg font-semibold leading-tight text-navy sm:text-[22px]">{title}</h1>
+          {subtitle && <p className="hidden text-sm text-textSecondary sm:block">{subtitle}</p>}
+        </div>
       </div>
 
       <div className="flex flex-1 items-center justify-end">

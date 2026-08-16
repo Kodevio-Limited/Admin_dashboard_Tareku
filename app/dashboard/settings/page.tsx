@@ -1,9 +1,10 @@
 'use client';
 import { useState, type FormEvent } from 'react';
-import { Camera, Save, ShieldCheck, LogOut, Loader2 } from 'lucide-react';
+import { Camera, Save, ShieldCheck, Loader2 } from 'lucide-react';
 import Card from '@/components/shared/Card';
 import Button from '@/components/shared/Button';
 import Avatar from '@/components/shared/Avatar';
+import Reveal from '@/components/shared/Reveal';
 
 type Tab = 'profile' | 'security';
 
@@ -24,6 +25,7 @@ export default function SettingsPage() {
 
   return (
     <div className="flex w-full flex-1 flex-col gap-6">
+      <Reveal>
       <div className="flex rounded-lg border border-border bg-surface p-1">
         {(['profile', 'security'] as Tab[]).map((t) => (
           <button
@@ -37,7 +39,9 @@ export default function SettingsPage() {
           </button>
         ))}
       </div>
+      </Reveal>
 
+      <Reveal>
       {tab === 'profile' ? (
         <Card className="flex flex-1 flex-col">
           <form onSubmit={handleSave} className="flex flex-1 flex-col justify-start gap-7 p-2 sm:p-6">
@@ -58,12 +62,12 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-5">
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-navy">Full Name</label>
                 <input
                   defaultValue="Admin User"
-                  className="h-10 w-full rounded-lg border border-border px-3 text-sm text-navy outline-none focus:border-accent"
+                  className="h-11 w-full rounded-lg border border-border px-3 text-sm text-navy outline-none focus:border-accent"
                 />
               </div>
               <div>
@@ -71,7 +75,7 @@ export default function SettingsPage() {
                 <input
                   defaultValue="Super Admin"
                   disabled
-                  className="h-10 w-full cursor-not-allowed rounded-lg border border-border bg-graySoft/50 px-3 text-sm text-textSecondary outline-none"
+                  className="h-11 w-full cursor-not-allowed rounded-lg border border-border bg-graySoft/50 px-3 text-sm text-textSecondary outline-none"
                 />
               </div>
               <div>
@@ -79,14 +83,14 @@ export default function SettingsPage() {
                 <input
                   defaultValue="admin@tarekuk.com"
                   type="email"
-                  className="h-10 w-full rounded-lg border border-border px-3 text-sm text-navy outline-none focus:border-accent"
+                  className="h-11 w-full rounded-lg border border-border px-3 text-sm text-navy outline-none focus:border-accent"
                 />
               </div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-navy">Phone Number</label>
                 <input
                   defaultValue="+1 555 123 4567"
-                  className="h-10 w-full rounded-lg border border-border px-3 text-sm text-navy outline-none focus:border-accent"
+                  className="h-11 w-full rounded-lg border border-border px-3 text-sm text-navy outline-none focus:border-accent"
                 />
               </div>
             </div>
@@ -142,12 +146,6 @@ export default function SettingsPage() {
 
             <div className="mt-auto flex items-center justify-start gap-3 border-t border-border pt-5">
               {saved && <span className="text-sm font-medium text-success">Password updated.</span>}
-              <button
-                type="button"
-                className="flex items-center gap-2 text-sm font-medium text-danger transition-colors hover:underline"
-              >
-                <LogOut className="h-4 w-4" /> Logout from all devices
-              </button>
               <Button type="submit" variant="primary" disabled={saving}>
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
                 {saving ? 'Updating...' : 'Change Password'}
@@ -156,6 +154,7 @@ export default function SettingsPage() {
           </form>
         </Card>
       )}
+      </Reveal>
     </div>
   );
 }

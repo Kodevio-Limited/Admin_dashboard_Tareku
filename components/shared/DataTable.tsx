@@ -79,17 +79,17 @@ export default function DataTable<T extends { id: string | number }>({
       <div className={cn('overflow-auto', fill && 'min-h-0 flex-1')}>
         <table className="w-full min-w-max text-left text-sm">
           <thead>
-            <tr className="border-b border-border bg-graySoft/60">
+            <tr className="border-b border-border bg-accent">
               {columns.map((col) => (
                 <th
                   key={String(col.key)}
-                  className="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-textSecondary"
+                  className="border border-border/40 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-navyDeep"
                   style={{ width: col.width }}
                 >
                   {col.sortable ? (
                     <button
                       onClick={() => handleSort(col.key)}
-                      className="inline-flex items-center gap-1 transition-colors hover:text-navy"
+                      className="inline-flex items-center gap-1 transition-colors hover:text-navyDeep/80"
                     >
                       {col.header}
                       {sortKey === col.key ? (
@@ -107,7 +107,7 @@ export default function DataTable<T extends { id: string | number }>({
                   )}
                 </th>
               ))}
-              {actions && <th className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide text-textSecondary">Actions</th>}
+              {actions && <th className="border border-border/40 px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide text-navyDeep">Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -130,17 +130,18 @@ export default function DataTable<T extends { id: string | number }>({
               </tr>
             ) : (
               <>
-                {sorted.map((row) => (
+                {sorted.map((row, rowIndex) => (
                   <tr
                     key={row.id}
                     onClick={onRowClick ? () => onRowClick(row) : undefined}
                     className={cn(
-                      'h-14 border-b border-border transition-colors hover:bg-graySoft/40',
+                      'h-14 border-b border-border transition-colors hover:bg-accentSoft/30',
+                      rowIndex % 2 === 1 && 'bg-graySoft/40',
                       onRowClick && 'cursor-pointer'
                     )}
                   >
                     {columns.map((col) => (
-                      <td key={String(col.key)} className="px-5 align-middle">
+                      <td key={String(col.key)} className="border-r border-border/40 px-5 align-middle last:border-r-0">
                         {col.render ? col.render(row) : String(row[col.key])}
                       </td>
                     ))}
